@@ -1,26 +1,3 @@
-<div align="center">
-
-# 🌥️ CloudMart
-
-<p align="center">
-
-  <!-- CI workflow -->
-  <img src="https://img.shields.io/github/actions/workflow/status/mmnahy34/cloudmart/ci.yml?label=CI%20Build&logo=github&style=for-the-badge">
-
-  <!-- Deploy workflow -->
-  <img src="https://img.shields.io/github/actions/workflow/status/mmnahy34/cloudmart/deploy.yml?label=Deploy%20to%20Azure&logo=azure-devops&style=for-the-badge">
-
-  <!-- Docker pulls -->
-  <img src="https://img.shields.io/docker/pulls/mmnahy34/cloudmart-api?logo=docker&style=for-the-badge">
-
-  <!-- License -->
-  <img src="https://img.shields.io/github/license/mmnahy34/cloudmart?style=for-the-badge">
-
-</p>
-
-</div>
-
-
 
 🌥️ CloudMart – Serverless E-Commerce API with Cosmos DB + Docker + GitHub Actions + ACI
 
