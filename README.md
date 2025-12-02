@@ -1,135 +1,147 @@
-🌤️ CloudMart
-Serverless E-Commerce API with FastAPI · Cosmos DB · Docker · GitHub Actions · Azure Container Instances
+🌩️ CloudMart — Serverless E-Commerce API & UI
 
-CloudMart is a lightweight cloud-native e-commerce platform built using FastAPI, Azure Cosmos DB, Docker, and GitHub Actions.
-It demonstrates a full real-world cloud workflow:
+FastAPI + Azure Cosmos DB + Docker + GitHub Actions CI/CD + Azure Container Instances
 
-Backend API with FastAPI
+<p align="center"> <img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/ci.yml?label=CI%20Build&logo=github&style=flat-square" /> <img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/deploy.yml?label=Deploy%20to%20Azure&logo=azure-pipelines&style=flat-square" /> <img src="https://img.shields.io/docker/pulls/mnmahy34/cloudmart-api?logo=docker&style=flat-square" /> <img src="https://img.shields.io/github/license/mnmahy34/cloudmart-mnmahy?style=flat-square" /> </p>
 
-Live NoSQL database via Cosmos DB
+CloudMart is a lightweight real-world cloud architecture demo:
+A fully dockerized FastAPI backend + CosmosDB NoSQL database + vanilla JS frontend deployed through GitHub Actions to Azure Container Instances (ACI).
 
-Docker containerization
+It demonstrates real production concepts: API design, CI/CD automation, container hosting, NSGs, VNet, Docker Hub publishing, and cloud-native app structure.
 
-CI/CD automation
-
-Deployment to Azure Container Instances (ACI)
-
-🚀 Features
-🛒 Core E-Commerce Functionality
+🚀 Core Features
+🛒 E-Commerce Functionality
 
 Browse products
 
 Filter by category
 
-Manage a shopping cart
+Add items to cart
+
+View cart
 
 Place orders
 
-Real-time database storage in Azure Cosmos DB
+Order confirmation screen
 
-⚙️ Backend
+Live data stored in Azure Cosmos DB
 
-FastAPI + Uvicorn application
+⚙️ Backend Tech
+
+FastAPI + Uvicorn
 
 Clean REST endpoints under /api/v1/*
 
 Async Cosmos DB Python SDK
 
-Fully Dockerized API service
+Dockerized backend service (Dockerfile)
 
 ☁️ Cloud Architecture
 
-Azure Cosmos DB NoSQL
+Azure Cosmos DB (NoSQL)
 
-Docker Hub container image hosting
+Azure Container Instances (ACI)
 
-GitHub Actions CI/CD pipeline
+Azure Network Security Group (NSG)
 
-Automated deploy to Azure Container Instances
+VNet Integration
 
-Public DNS endpoint (ACI FQDN)
+Custom DNS label on Azure
 
-🧱 Tech Stack
-Category	Technologies
-Backend	FastAPI, Python 3.11
-Database	Azure Cosmos DB (Core API)
-Containerization	Docker, Azure Container Instances
-CI/CD	GitHub Actions
-Cloud	Azure Portal, ACI, VNet, NSG
-Frontend	Vanilla JS, HTML5, CSS3
-✅ Project Architecture Overview
-          ┌──────────────────────────┐
-          │      GitHub Repo         │
-          └─────────────▲────────────┘
-                        │ Push
-                        │
-          ┌─────────────▼────────────┐
-          │    GitHub Actions CI/CD  │
-          │  - Build Docker image    │
-          │  - Push to Docker Hub    │
-          │  - Deploy to Azure       │
-          └─────────────▲────────────┘
-                        │ Pull Image
-                        │
-        ┌───────────────▼────────────────┐
-        │ Azure Container Instance (ACI) │
-        │ cloudmart-app container        │
-        └───────────────▲────────────────┘
-                        │
-                        │
-          ┌─────────────▼────────────┐
-          │     Cosmos DB (NoSQL)    │
-          │ Products • Cart • Orders │
-          └──────────────────────────┘
+GitHub Actions CI/CD automation
 
-🧪 API Endpoints
-Products
-GET  /api/v1/products
-GET  /api/v1/products?category=Electronics
-GET  /api/v1/products/{id}
+Docker Hub image hosting
 
-Cart
-GET    /api/v1/cart
-POST   /api/v1/cart/items
-DELETE /api/v1/cart/items/{product_id}
+🧱 Project Architecture Overview
+GitHub Repo
+   │
+   ├── CI Workflow (ci.yml)
+   │      ├── Install Python deps
+   │      ├── Lint / test (if enabled)
+   │      └── Build docker image (no push)
+   │
+   ├── Deploy Workflow (deploy.yml)
+   │      ├── Build Docker image
+   │      ├── Push to Docker Hub ➜ mnmahy34/cloudmart-api:latest
+   │      ├── Login to Azure
+   │      ├── Delete old ACI instance
+   │      └── Create new ACI instance with env vars
+   │
+   ▼
+Docker Hub
+   └── cloudmart-api:latest
+       (public container registry)
+   ▼
+Azure Container Instances (ACI)
+   ├── Pull Docker image
+   ├── Expose port 80
+   ├── Inject CosmosDB secrets
+   └── Public DNS → cloudmart-<id>.canadacentral.azurecontainer.io
+   ▼
+Azure Cosmos DB
+   ├── products
+   ├── cart
+   └── orders
 
-Orders
-POST /api/v1/orders
-GET  /api/v1/orders
+📦 Docker Hub Repository
 
-Health Check
-GET /health
+📍 https://hub.docker.com/r/mnmahy34/cloudmart-api
 
-🐳 Docker
-Build image
+Tags typically include:
+
+latest (auto-deployed through GitHub Actions)
+
+🧪 GitHub Actions CI/CD Workflows
+CI Workflow
+
+📄 .github/workflows/ci.yml
+Runs on every push to main or PR.
+
+Checkout repo
+
+Install dependencies
+
+Optional lint/testing
+
+Docker build test
+
+Deployment Workflow
+
+📄 .github/workflows/deploy.yml
+Runs on every push to main.
+
+Build and push Docker image
+
+Login with Azure Service Principal
+
+Recreate container instance on Azure
+
+Run health check
+
+🔐 GitHub Secrets Required
+Secret Name	Purpose
+DOCKERHUB_USERNAME	Docker Hub login
+DOCKERHUB_TOKEN	Docker Hub access token
+AZURE_CREDENTIALS	Azure service principal (JSON)
+COSMOS_ENDPOINT	Cosmos DB endpoint URL
+COSMOS_KEY	Cosmos DB primary key
+USER_ID	Your student/lab identifier
+▶️ Running Locally
+1. Build the Docker image
 docker build -t cloudmart-api:local .
 
-Run container locally
+2. Run locally
 docker run -p 8000:80 \
   -e COSMOS_ENDPOINT="your-endpoint" \
   -e COSMOS_KEY="your-key" \
   cloudmart-api:local
 
-🤖 CI/CD Pipeline
 
-GitHub Actions automate:
+Open:
+👉 http://localhost:8000/health
 
-🔨 Build Docker image
+👉 http://localhost:8000
 
-📦 Push image to Docker Hub
-
-☁️ Deploy to Azure Container Instances
-
-🧪 Health check validation
-
-Workflows:
-
-.github/workflows/ci.yml
-.github/workflows/deploy.yml
-
-🌐 Live Deployment
-
-Public Endpoint:
-(Example — replace with your actual)
+🌐 Production Deployment URL
 
 http://cloudmart-1903054.canadacentral.azurecontainer.io/
