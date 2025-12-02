@@ -6,11 +6,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy your app code
-COPY deploy/main_cosmosdb.py /app/main.py
+# Copy the deploy folder (your API lives here)
+COPY deploy/ /app/
 
-# Expose port 80 for Azure
+# Expose port for Azure
 EXPOSE 80
 
-# Run FastAPI using Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Run FastAPI
+CMD ["uvicorn", "main_cosmosdb:app", "--host", "0.0.0.0", "--port", "80"]
