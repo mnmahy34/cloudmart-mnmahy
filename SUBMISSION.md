@@ -1,4 +1,4 @@
-# CPS451 Milestone 3: Enterprise Cloud Solution
+# CPS451 Final Project: Enterprise Cloud Solution
 
 ## Complete Submission Documentation
 
@@ -100,12 +100,6 @@ DNS Label | cloudmart-1903054
 Public URL | http://cloudmart-1903054.canadacentral.azurecontainer.io/
 NSG | cloudmart-web-nsg
 
-**Screenshot: Resource Group Overview**
-
-
-
----
-
 ## 3. Cosmos DB Configuration
 
 Database: cloudmartdb
@@ -120,9 +114,6 @@ orders
 
 Each container uses **/id** as partition key.
 
-**Screenshot: Cosmos DB – Data Explorer Showing All Containers**
-
-(Insert screenshot here)
 
 ---
 
@@ -169,15 +160,10 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
 
 https://hub.docker.com/repository/docker/mnmahy34/cloudmart-api/general
 
-**Screenshot: Docker Hub Repository Showing Image Tags**
-
-(Insert screenshot here)
-
 ---
 
 ## 6. GitHub Actions CI/CD
 
-Your repo:
 https://github.com/mnmahy34/cloudmart-mnmahy
 
 ### Workflows included:
@@ -217,14 +203,6 @@ Inject Cosmos DB secrets
 
 Validate health endpoint
 
-**Screenshot: GitHub Actions – Successful CI/CD Runs**
-
-(Insert screenshot here)
-
-**Screenshot: GitHub Secrets Page (Names Only)**
-
-(Insert screenshot here)
-
 ---
 
 ## 7. Deployment Execution
@@ -246,12 +224,6 @@ az container create \
       COSMOS_KEY="$COSMOS_KEY"
 ```
 
-**Screenshot: Azure Container Instance Overview (Running, FQDN)**
-
-(Insert screenshot here)
-
----
-
 ## 8. API Testing & Verification
 
 ### Health Check
@@ -263,15 +235,8 @@ Expected output:
 { "status": "ok" }
 ```
 
-**Screenshot: Browser or curl showing /health response**
-
-(Insert screenshot here)
-
----
 
 ## 9. Browser Testing
-
-Required Screenshots:
 
 Homepage with products listed
 
@@ -280,8 +245,6 @@ Category filter (e.g., Electronics)
 Shopping cart with items
 
 Order confirmation
-
-Insert the following screenshots:
 
 Homepage
 
@@ -307,9 +270,96 @@ GitHub Actions logs clean
 
 ## 11. Complete Command Log
 
-(Leave space for your CLI commands)
+az cosmosdb create \
+  --name cloudmart-db-1903054 \
+  --resource-group Student-RG-1903054 \
+  --kind GlobalDocumentDB \
+  --locations regionName=canadacentral failoverPriority=0 \
+  --default-consistency-level Eventual
 
-[Place your az cli logs here]
+
+az cosmosdb sql database create \
+  --account-name cloudmart-db-1903054 \
+  --resource-group Student-RG-1903054 \
+  --name cloudmart
+
+az cosmosdb sql container create \
+  --account-name cloudmart-db-1903054 \
+  --resource-group Student-RG-1903054 \
+  --database-name cloudmart \
+  --name products \
+  --partition-key-path "/category"
+
+az cosmosdb sql container create \
+  --account-name cloudmart-db-1903054 \
+  --resource-group Student-RG-1903054 \
+  --database-name cloudmart \
+  --name cart \
+  --partition-key-path "/user_id"
+
+az cosmosdb sql container create \
+  --account-name cloudmart-db-1903054 \
+  --resource-group Student-RG-1903054 \
+  --database-name cloudmart \
+  --name orders \
+  --partition-key-path "/user_id"
+
+az network nsg create \
+  --resource-group Student-RG-1903054 \
+  --name cloudmart-web-nsg \
+  --location canadacentral
+
+
+
+az network nsg rule create \
+  --resource-group Student-RG-1903054 \
+  --nsg-name cloudmart-web-nsg \
+  --name Allow-HTTP \
+  --priority 100 \
+  --protocol Tcp \
+  --direction Inbound \
+  --access Allow \
+  --source-address-prefixes '*' \
+  --source-port-ranges '*' \
+  --destination-port-ranges 80
+
+az network nsg rule create \
+  --resource-group Student-RG-1903054 \
+  --nsg-name cloudmart-web-nsg \
+  --name Allow-HTTPS \
+  --priority 110 \
+  --protocol Tcp \
+  --direction Inbound \
+  --access Allow \
+  --source-address-prefixes '*' \
+  --source-port-ranges '*' \
+  --destination-port-ranges 443
+
+az network nsg rule create \
+  --resource-group Student-RG-1903054 \
+  --nsg-name cloudmart-web-nsg \
+  --name Allow-SSH \
+  --priority 120 \
+  --protocol Tcp \
+  --direction Inbound \
+  --access Allow \
+  --source-address-prefixes '*' \
+  --source-port-ranges '*' \
+  --destination-port-ranges 22
+
+
+az container create \
+  --name cloudmart-app \
+  --resource-group Student-RG-1903054 \
+  --image mnmahy34/cloudmart-api:latest \
+  --cpu 1 \
+  --memory 1.5 \
+  --os-type Linux \
+  --ports 80 \
+  --dns-name-label cloudmart-1903054 \
+  --environment-variables \
+    COSMOS_ENDPOINT="https://cloudmart-db-1903054.documents.azure.com:443/" \
+    COSMOS_KEY="9K3FErNeJDNSWpUBRb75PBt5tSlNUBYuvuesytMCttqhmgZZNSqlAj00BMyaZTa0yqjLb3pjzTvWACDb3nQQYA=="
 
 ---
 
