@@ -190,8 +190,12 @@ def home():
 # --------------------------------------------------
 
 @app.get("/health")
-def health():
-    return {"status": "healthy", "db": "not_connected_yet"}
+async def health():
+    try:
+        await cosmos_container.read_item(item="1", partition_key="1")
+        return {"status": "healthy", "db": "connected"}
+    except Exception as e:
+        return {"status": "healthy", "db": "not_connected_yet"}
 
 # --------------------------------------------------
 # Product endpoints
