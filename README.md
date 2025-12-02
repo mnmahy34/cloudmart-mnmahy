@@ -1,3 +1,16 @@
+<div align="center">
+
+# 🌥️ CloudMart
+
+[![CI Build](https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart/ci.yml?label=CI%20Build&logo=github&style=for-the-badge)]()
+[![Deploy to Azure](https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart/deploy.yml?label=Deploy%20to%20Azure&logo=azure-devops&style=for-the-badge)]()
+[![Docker Pulls](https://img.shields.io/docker/pulls/mnmahy34/cloudmart-api?logo=docker&style=for-the-badge)]()
+[![License](https://img.shields.io/github/license/mnmahy34/cloudmart?style=for-the-badge)]()
+
+</div>
+
+
+
 🌥️ CloudMart – Serverless E-Commerce API with Cosmos DB + Docker + GitHub Actions + ACI
 
 CloudMart is a lightweight e-commerce demo platform built with FastAPI, Azure Cosmos DB, and Docker.
