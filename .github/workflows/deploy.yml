@@ -47,16 +47,16 @@ jobs:
       run: |
         az container create \
           --name cloudmart-app \
-          --resource-group Student-RG-1903054 \
-          --image ${{ secrets.DOCKERHUB_USERNAME }}/cloudmart-api:latest \
+          --resource-group $AZURE_RESOURCE_GROUP \
+          --image $DOCKER_IMAGE \
           --cpu 1 \
           --memory 1.5 \
+          --os-type Linux \
           --ports 80 \
-          --dns-name-label cloudmart-1903054 \
+          --dns-name-label cloudmart-${{ secrets.USER_ID }} \
           --environment-variables \
-            COSMOS_ENDPOINT="${{ secrets.COSMOS_ENDPOINT }}" \
-            COSMOS_KEY="${{ secrets.COSMOS_KEY }}"
-
+            COSMOS_ENDPOINT=${{ secrets.COSMOS_ENDPOINT }} \
+            COSMOS_KEY=${{ secrets.COSMOS_KEY }}
     - name: Wait for startup
       run: sleep 20
 
