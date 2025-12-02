@@ -2,10 +2,21 @@
 
 # 🌥️ CloudMart
 
-[![CI Build](https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart/ci.yml?label=CI%20Build&logo=github&style=for-the-badge)]()
-[![Deploy to Azure](https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart/deploy.yml?label=Deploy%20to%20Azure&logo=azure-devops&style=for-the-badge)]()
-[![Docker Pulls](https://img.shields.io/docker/pulls/mnmahy34/cloudmart-api?logo=docker&style=for-the-badge)]()
-[![License](https://img.shields.io/github/license/mnmahy34/cloudmart?style=for-the-badge)]()
+<p align="center">
+
+  <!-- CI workflow -->
+  <img src="https://img.shields.io/github/actions/workflow/status/mmnahy34/cloudmart/ci.yml?label=CI%20Build&logo=github&style=for-the-badge">
+
+  <!-- Deploy workflow -->
+  <img src="https://img.shields.io/github/actions/workflow/status/mmnahy34/cloudmart/deploy.yml?label=Deploy%20to%20Azure&logo=azure-devops&style=for-the-badge">
+
+  <!-- Docker pulls -->
+  <img src="https://img.shields.io/docker/pulls/mmnahy34/cloudmart-api?logo=docker&style=for-the-badge">
+
+  <!-- License -->
+  <img src="https://img.shields.io/github/license/mmnahy34/cloudmart?style=for-the-badge">
+
+</p>
 
 </div>
 
