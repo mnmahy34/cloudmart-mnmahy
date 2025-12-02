@@ -359,7 +359,7 @@ az container create \
   --dns-name-label cloudmart-1903054 \
   --environment-variables \
     COSMOS_ENDPOINT="https://cloudmart-db-1903054.documents.azure.com:443/" \
-    COSMOS_KEY="9K3FErNeJDNSWpUBRb75PBt5tSlNUBYuvuesytMCttqhmgZZNSqlAj00BMyaZTa0yqjLb3pjzTvWACDb3nQQYA=="
+    COSMOS_KEY="<secret>"
 
 ---
 
