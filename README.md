@@ -1,137 +1,142 @@
-🌥️ CloudMart — Serverless Shopping API
+🌥️ CloudMart – Serverless E-Commerce API with Cosmos DB + Docker + GitHub Actions + ACI
 
-FastAPI • Azure Cosmos DB • Docker • Azure Container Instances • GitHub Actions CI/CD
+CloudMart is a lightweight e-commerce demo platform built with FastAPI, Azure Cosmos DB, and Docker.
+The project demonstrates real-world cloud architecture: API backend, database integration, containers, CI/CD automation, and deployment to Azure Container Instances (ACI).
 
-CloudMart is a lightweight shopping API and frontend built with FastAPI, backed by Azure Cosmos DB, containerized with Docker, and deployed automatically to Azure Container Instances (ACI) using GitHub Actions.
+⭐ Features
+🛒 API Functionality
 
-This project was developed as part of a cloud-computing assignment to demonstrate:
-✔ REST API design
-✔ Cloud database use
-✔ Containerization
-✔ Deployment automation
-✔ GitHub Actions pipelines
+View products
 
-✨ Features
-REST API Endpoints
-Method	Endpoint	Description
-GET	/	Frontend web page
-GET	/health	Health check
-GET	/api/v1/products	List all products
-GET	/api/v1/products?category=	Filter products by category
-GET	/api/v1/products/{id}	Get product details
-GET	/api/v1/categories	List distinct product categories
-GET	/api/v1/cart	Get current user's cart
-POST	/api/v1/cart/items	Add/update cart item
-DELETE	/api/v1/cart/items/{id}	Remove item from cart
-POST	/api/v1/orders	Create an order
-GET	/api/v1/orders	List user orders
-🗄️ Database (Azure Cosmos DB)
+Manage cart
 
-Cosmos DB Account:
-cloudmart-db-1903054
+Place orders
 
-Database:
-cloudmart
+Live data storage using Cosmos DB
 
-Containers:
+⚙️ Backend
 
-Container	Partition Key
-products	/category
-cart	/user_id
-orders	/user_id
+FastAPI + Uvicorn
 
-Your FastAPI app loads data using:
+Async Cosmos DB SDK
 
-from azure.cosmos import CosmosClient
-client = CosmosClient(COSMOS_ENDPOINT, COSMOS_KEY)
+Clean endpoints under /api/v1/*
 
-🖥️ Frontend
+Dockerized backend service
 
-A simple frontend UI is served directly from FastAPI as HTML + CSS + JavaScript:
+☁️ Cloud Architecture
 
-✔ Displays product cards
-✔ Filters by category
-✔ Adds items to cart
-✔ Shows cart modal
-✔ Places orders
+Cosmos DB NoSQL database
 
-Accessible at:
+Docker Hub image hosting
 
-http://localhost:8000/
+GitHub Actions CI/CD
 
+Automatic deploy to Azure Container Instances
 
-or after deployment:
+Custom DNS label on Azure
 
-http://cloudmart-1903054.canadacentral.azurecontainer.io/
+📁 Project Structure
+cloudmart/
+│── deploy/
+│   └── main_cosmosdb.py       # FastAPI backend
+│
+│── Dockerfile                 # Container build file
+│── requirements.txt           # Python dependencies
+│── README.md
+│
+└── .github/workflows/
+    ├── ci.yml                 # CI: tests + checks
+    └── deploy.yml             # CD: build + push + deploy
 
-🐳 Docker Deployment
-Build Docker image:
+🐳 Docker Support
+Build image locally:
 docker build -t cloudmart-api:local .
 
-Run locally with Cosmos DB credentials:
+Run locally:
 docker run -p 8000:80 \
-  -e COSMOS_ENDPOINT="https://cloudmart-db-1903054.documents.azure.com:443/" \
-  -e COSMOS_KEY="<my_cosmosDB_key>" \
+  -e COSMOS_ENDPOINT="your-endpoint" \
+  -e COSMOS_KEY="your-key" \
   cloudmart-api:local
 
-🚀 Azure Deployment (ACI)
-Push image to Docker Hub
-docker tag cloudmart-api:local <mnmahy34>/cloudmart-api:latest
-docker login
-docker push <mnmahy34>/cloudmart-api:latest
 
-Create Azure Container Instance
-az container create \
-  --name cloudmart-app \
-  --resource-group Student-RG-1903054 \
-  --image <mnmahy34>/cloudmart-api:latest \
-  --cpu 1 \
-  --memory 1.5 \
-  --os-type Linux \
-  --ports 80 \
-  --dns-name-label cloudmart-1903054 \
-  --environment-variables \
-    COSMOS_ENDPOINT="https://cloudmart-db-1903054.documents.azure.com:443/" \
-    COSMOS_KEY="<my_cosmosDB_key>"
+Backend reachable at:
 
+http://localhost:8000
 
-Check deployment:
+🧪 API Endpoints
+Method	Endpoint	Description
+GET	/api/v1/products	List all products
+GET	/api/v1/cart	View cart
+POST	/api/v1/cart/{id}	Add product to cart
+POST	/api/v1/orders	Place order
+GET	/health	Health check
+🚀 CI/CD Overview
+🔧 CI (ci.yml)
 
-az container show \
-  --name cloudmart-app \
-  --resource-group Student-RG-1903054 \
-  --query '{state:instanceView.state, fqdn:ipAddress.fqdn}' -o table
+Runs automatically on push:
 
-🔄 CI/CD (GitHub Actions)
+Checkout
 
-Configured with:
+Install Python
 
-✔ ci.yml
+Lint / validate
 
-Install Python dependencies
+(Optional) Build Docker image
 
-Run formatting / lint
+💠 CD (deploy.yml)
 
-Validate build
-
-✔ deploy.yml
+Triggered on push to main:
 
 Build Docker image
 
-Push to Docker Hub
+Log in to Docker Hub
 
-Log into Azure
+Push latest tag
 
-Delete old container (if exists)
+Log in to Azure
 
-Deploy new container with environment variables
+Delete old container
 
-Call /health endpoint to verify
+Recreate container with latest image
 
-Secrets required:
-Secret Name	Purpose
-DOCKERHUB_USERNAME	Docker Hub login
-DOCKERHUB_TOKEN	Docker Hub PAT
-AZURE_CREDENTIALS	Service Principal JSON (--sdk-auth)
-COSMOS_ENDPOINT	Cosmos DB endpoint
-COSMOS_KEY	Cosmos DB primary key
+Health check
+
+🔑 Required GitHub Secrets
+
+Make sure these secrets exist:
+
+Secret Name	Description
+DOCKERHUB_USERNAME	Your Docker Hub username
+DOCKERHUB_TOKEN	Docker Hub access token
+AZURE_CREDENTIALS	Service principal JSON
+AZURE_RESOURCE_GROUP	e.g. Student-RG-1903054
+USER_ID	Your student ID for DNS label
+COSMOS_ENDPOINT	Cosmos DB endpoint URL
+COSMOS_KEY	Cosmos DB key
+☁️ Azure Deployment (ACI)
+After CI/CD completes, your app is reachable at:
+http://cloudmart-<yourid>.canadaeast.azurecontainer.io
+
+
+Health check:
+
+http://cloudmart-<yourid>.canadaeast.azurecontainer.io/health
+
+🎓 Purpose
+
+This project was developed for Seneca College – OPS coursework, demonstrating:
+
+Cloud infrastructure setup
+
+Docker containerization
+
+Cosmos DB NoSQL modeling
+
+CI/CD pipelines (GitHub Actions → Docker Hub → Azure)
+
+Real-world deployment workflows
+
+❤️ Acknowledgements
+
+Thanks to Azure, GitHub Actions, and FastAPI — the trio that brings modern cloud development to life.
