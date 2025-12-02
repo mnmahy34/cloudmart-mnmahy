@@ -55,8 +55,8 @@ jobs:
           --ports 80 \
           --dns-name-label cloudmart-${{ secrets.USER_ID }} \
           --environment-variables \
-            COSMOS_ENDPOINT=${{ secrets.COSMOS_ENDPOINT }} \
-            COSMOS_KEY=${{ secrets.COSMOS_KEY }}
+            COSMOS_ENDPOINT='${{ secrets.COSMOS_ENDPOINT }}' \
+            COSMOS_KEY='${{ secrets.COSMOS_KEY }}'
     - name: Wait for startup
       run: sleep 20
 
