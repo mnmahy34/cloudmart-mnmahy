@@ -3,16 +3,8 @@
 **FastAPI + Azure Cosmos DB + Docker + GitHub Actions CI/CD + Azure
 Container Instances**
 
-```{=html}
-<p align="center">
-```
-`<img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/ci.yml?label=CI%20Build&logo=github&style=flat-square" />`{=html}
-`<img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/deploy.yml?label=Deploy%20to%20Azure&logo=azure-pipelines&style=flat-square" />`{=html}
-`<img src="https://img.shields.io/docker/pulls/mnmahy34/cloudmart-api?logo=docker&style=flat-square" />`{=html}
-`<img src="https://img.shields.io/github/license/mnmahy34/cloudmart-mnmahy?style=flat-square" />`{=html}
-```{=html}
-</p>
-```
+<p align="center"> <img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/ci.yml?label=CI%20Build&logo=github&style=flat-square" /> <img src="https://img.shields.io/github/actions/workflow/status/mnmahy34/cloudmart-mnmahy/deploy.yml?label=Deploy%20to%20Azure&logo=azure-pipelines&style=flat-square" /> <img src="https://img.shields.io/docker/pulls/mnmahy34/cloudmart-api?logo=docker&style=flat-square" /> <img src="https://img.shields.io/github/license/mnmahy34/cloudmart-mnmahy?style=flat-square" /> </p>
+
 CloudMart is a lightweight real-world cloud architecture demo: a fully
 dockerized FastAPI backend + CosmosDB NoSQL database + vanilla JS
 frontend deployed through GitHub Actions to Azure Container Instances
